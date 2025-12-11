@@ -1,9 +1,7 @@
-// src/pages/SellerUploadPage.jsx
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { uploadSellerFile } from "../endpoint.js";
-; // adjust path if different
 
 export default function SellerUploadPage() {
   const [file, setFile] = useState(null);
@@ -15,17 +13,16 @@ export default function SellerUploadPage() {
       return uploadSellerFile(formData);
     },
     onSuccess: (data, variables) => {
-      // data should be { columns: [...], sampleRows: [...] }
+    
       const columns = data.columns || [];
       const filename = variables.get("file")?.name || "seller.csv";
       sessionStorage.setItem("sellerColumns", JSON.stringify(columns));
       sessionStorage.setItem("sellerFilename", filename);
-      // navigate to mapping page
+      
       navigate("/mapping");
     },
     onError: (err) => {
       console.error("Upload failed:", err);
-      // err.message might be available
       alert("Upload failed: " + (err?.message || "unknown error"));
     },
   });
@@ -46,7 +43,7 @@ export default function SellerUploadPage() {
         Upload Seller File
       </h2>
 
-      {/* File Upload Input */}
+      
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Choose CSV / Excel File
@@ -59,7 +56,7 @@ export default function SellerUploadPage() {
         />
       </div>
 
-      {/* Upload Button */}
+     
       <button
         onClick={handleUpload}
         disabled={mutation.isLoading}
@@ -68,14 +65,13 @@ export default function SellerUploadPage() {
         {mutation.isLoading ? "Uploading…" : "Upload"}
       </button>
 
-      {/* Error */}
       {mutation.isError && (
         <div className="mt-4 text-sm text-red-600">
           Error: {mutation.error?.message || "Upload failed"}
         </div>
       )}
 
-      {/* Columns Preview (only show if we already have columns in sessionStorage) */}
+      
       <ColumnsPreview />
     </div>
   );

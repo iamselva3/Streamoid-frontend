@@ -1,30 +1,33 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";// adjust path
+import { useNavigate } from "react-router-dom";
 import { uploadMarketplaceTemplate } from "../endpoint.js";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function MarketplaceUploadPage() {
   const [file, setFile] = useState(null);
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
-  // Mutation for template upload
   const mutation = useMutation({
     mutationFn: async (formData) => uploadMarketplaceTemplate(formData),
     onSuccess: (data) => {
-      alert("Marketplace template created!");
+      toast.success("Marketplace template created!", { autoClose: 1500 });
       console.log("Uploaded:", data);
-      navigate("/seller-upload"); // redirect after success
+
+      setTimeout(() => navigate("/seller-upload"), 1500);
     },
     onError: (err) => {
       console.error(err);
-      alert("Upload failed: " + (err.message || "unknown error"));
+      toast.error("Upload failed: " + (err.message || "unknown error"));
     },
   });
 
   const handleUpload = () => {
     if (!file && !name) {
-      alert("Provide a template name or upload a CSV file!");
+      toast.warning("Provide a template name or upload a CSV file!");
       return;
     }
 
@@ -37,11 +40,12 @@ export default function MarketplaceUploadPage() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
+      <ToastContainer />
+
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">
         Create Marketplace Template
       </h2>
 
-      {/* Template Name */}
       <div className="mb-5">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Template Name (optional)
@@ -55,7 +59,6 @@ export default function MarketplaceUploadPage() {
         />
       </div>
 
-      {/* File Upload */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Upload CSV Template
@@ -68,7 +71,6 @@ export default function MarketplaceUploadPage() {
         />
       </div>
 
-      {/* Upload Button */}
       <button
         onClick={handleUpload}
         disabled={mutation.isLoading}
@@ -77,7 +79,6 @@ export default function MarketplaceUploadPage() {
         {mutation.isLoading ? "Uploading…" : "Upload Template"}
       </button>
 
-      {/* Navigation */}
       <div className="mt-6 text-center">
         <a href="/seller-upload" className="text-blue-600 hover:underline text-sm">
           Next → Upload Seller File

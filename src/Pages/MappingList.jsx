@@ -1,14 +1,13 @@
-// src/pages/MappingListPage.jsx
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllMappings } from "../endpoint.js";
- // adjust path if needed
+
 
 export default function MappingListPage() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["mappings"],
     queryFn: getAllMappings,
-    staleTime: 1000 * 60, // 1 minute cache
+    staleTime: 1000 * 60, 
   });
 
   const mappings = useMemo(() => data || [], [data]);
