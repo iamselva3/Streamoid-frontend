@@ -1,16 +1,55 @@
-# React + Vite
+# Product Mapping Tool
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full workflow tool for uploading marketplace templates, uploading seller product files, mapping seller columns to marketplace attributes, and saving/viewing mappings.  
+This project implements the exact requirements outlined in the assignment PDF.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+### 1. Marketplace Template Upload
+- Upload a marketplace template CSV.
+- Automatically extracts attribute keys + labels.
+- Saves template to MongoDB.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 2. Seller File Upload
+- Upload CSV or Excel file from the seller.
+- Backend parses:
+  - Column headers
+  - Sample rows
+- Columns are used for mapping.
 
-## Expanding the ESLint configuration
+### 3. Mapping UI
+- Select a marketplace template.
+- Map each marketplace attribute → seller column.
+- Preview mapping.
+- Save mapping with metadata.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 4. Saved Mappings
+- View all mappings saved in the system.
+- Inspect mapping details in JSON format.
+
+### 5. Authentication (Optional)
+- JWT login system.
+- Seeded users:
+  - super@local / SuperPass123!
+  - admin@local / AdminPass123!
+  - seller@local / SellerPass123!
+- Role-based navigation & route protection.
+
+---
+
+## 🧩 Tech Stack
+
+### Frontend
+- React (Vite)
+- React Router
+- React Query
+- Axios
+- Tailwind CSS
+
+### Backend
+- Node.js + Express
+- Mongoose (MongoDB)
+- Multer (file upload)
+- bcryptjs + JWT (Auth)
